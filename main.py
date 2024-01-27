@@ -2,6 +2,7 @@ from pywinauto.application import Application
 from pywinauto.keyboard import SendKeys
 import keyboard
 import psutil
+import time
 
 def find_control_retry(window, title, control_type, retry_interval=1, max_retries=5):
     """在指定窗口中查找控件，带有重试机制"""
@@ -27,6 +28,7 @@ def open_wechat(we_path):
         # 打开微信
         app = Application(backend="uia").start(we_path)
     else:
+        app = Application(backend="uia").start(we_path)
         app = Application(backend="uia").connect(path=we_path)
     # 获取微信窗口
     we_win = app.window(title='微信')
@@ -52,6 +54,8 @@ def main(path):
 
     # 获取WeChat的进程号PID
     we_pid = find_wechat_pid()
+
+    time.sleep(2)
     # 连接到wx
     wx_app = Application(backend='uia').connect(process=we_pid)
     wx_window = wx_app.window(title="微信")
@@ -64,5 +68,5 @@ def main(path):
     keyboard.send('enter')
 
 if __name__ == "__main__":
-    we_chat_path = "C:\Program Files (x86)\Tencent\WeChat\WeChat.exe"
+    we_chat_path = "C:\\Program Files (x86)\\Tencent\\WeChat\\WeChat.exe"
     main(we_chat_path)

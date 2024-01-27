@@ -22,12 +22,12 @@ def check_wechat_running():
             return True
     return False
 
-def open_wechat():
+def open_wechat(we_path):
     if not check_wechat_running():
         # 打开微信
-        app = Application(backend="uia").start(r"C:\Program Files (x86)\Tencent\WeChat\WeChat.exe")
+        app = Application(backend="uia").start(we_path)
     else:
-        app = Application(backend="uia").connect(path=r"C:\Program Files (x86)\Tencent\WeChat\WeChat.exe")
+        app = Application(backend="uia").connect(path=we_path)
     # 获取微信窗口
     we_win = app.window(title='微信')
     try:
@@ -44,11 +44,11 @@ def find_wechat_pid():
             return proc.info['pid']
     return None
 
-def main():
+def main(path):
     # 初始化
     name = input("输入聊天列表中发送对象的微信名称:")
     inputthings = input("输入想要发送的内容:\n")
-    open_wechat()
+    open_wechat(path)
 
     # 获取WeChat的进程号PID
     we_pid = find_wechat_pid()
@@ -64,4 +64,5 @@ def main():
     keyboard.send('enter')
 
 if __name__ == "__main__":
-    main()
+    we_chat_path = "C:\Program Files (x86)\Tencent\WeChat\WeChat.exe"
+    main(we_chat_path)
